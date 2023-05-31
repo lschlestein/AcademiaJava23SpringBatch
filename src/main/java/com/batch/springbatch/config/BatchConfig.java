@@ -1,8 +1,8 @@
 package com.batch.springbatch.config;
 
+import com.batch.springbatch.model.Pessoa;
 import com.batch.springbatch.repository.PessoaRepository;
 import lombok.AllArgsConstructor;
-import com.batch.springbatch.model.Pessoa;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
