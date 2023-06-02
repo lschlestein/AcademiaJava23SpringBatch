@@ -1,5 +1,7 @@
 package com.batch.springbatch.controller;
 
+import com.batch.springbatch.model.Pessoa;
+import com.batch.springbatch.repository.PessoaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -9,9 +11,9 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/jobs")
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BatchController {
     private JobLauncher jobLauncher;
     private Job job;
+    private PessoaRepository pessoaRepository;//
 
     @PostMapping("/importPessoas")
     public void importCsvToDBJob() {
@@ -32,5 +35,21 @@ public class BatchController {
             throw new RuntimeException(e);
         }
     }
+
+    @GetMapping("/{id}")
+    public Pessoa buscarPessoaId(@PathVariable ("id") Long id){
+        return pessoaRepository.findById(id).get();
+    }
+    @GetMapping("/listar")
+    public List<Pessoa> buscarPessoaId(){
+        return pessoaRepository.findAll();
+    }
+
+    @PostMapping("/cadastrar")
+    public Pessoa inserirPessoa(@RequestBody Pessoa pessoa){
+        pessoaRepository.save(pessoa);
+        return pessoa;
+    }
+
 }
 
